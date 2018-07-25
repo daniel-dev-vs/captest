@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CapptaApi.Repository
 {
-    interface ITransacaoRepository
+    public interface ITransacaoRepository
     {
         Task<List<Transacao>> ConsultaPorCnpj(string cnpj);
         Task<List<Transacao>> ConsultaPorCnpjEBandeira(string cnpj, string bandeira);
