@@ -6,7 +6,7 @@ using CapptaApi.Models;
 
 namespace CapptaApi.Services
 {
-    interface ITransacaoService
+    public interface ITransacaoService
     {
         Task<List<Transacao>> ConsultaPorCnpj(string cnpj);
         Task<List<Transacao>> ConsultaPorCnpjEBandeira(string cnpj, string bandeira);

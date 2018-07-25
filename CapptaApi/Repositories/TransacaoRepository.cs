@@ -11,11 +11,11 @@ namespace CapptaApi.Repositories
 {
     public class TransacaoRepository : ITransacaoRepository
     {
-        private List<Transacao> _trancacoes { get; set; }
+        private List<Transacao> _transacoes { get; set; }
         public TransacaoRepository(List<Transacao> transacoes)
         {
-            if (transacoes == null) { throw new ArgumentNullException(nameof(_trancacoes)); }
-            _trancacoes = transacoes;
+            if (transacoes == null) { throw new ArgumentNullException(nameof(_transacoes)); }
+            _transacoes = transacoes;
         }
 
         /// <summary>
@@ -26,7 +26,8 @@ namespace CapptaApi.Repositories
         /// <returns></returns>
         public Task<List<Transacao>> ConsultaPorAdquirente(string adquirente, string bandeira)
         {
-            var result =  _trancacoes.Where(x => x.AcquirerName == adquirente && x.CardBrandName == bandeira).ToList();
+            var result =  _transacoes.Where(x => x.AcquirerName.ToLower() == adquirente.ToLower() &&
+            x.CardBrandName.ToLower() == bandeira.ToLower()).ToList();
 
             return Task.FromResult(result);
         }
@@ -38,7 +39,7 @@ namespace CapptaApi.Repositories
         /// <returns></returns>
         public Task<List<Transacao>> ConsultaPorBandeira(string bandeira)
         {
-            var result = _trancacoes.Where(x => x.CardBrandName == bandeira).ToList();
+            var result = _transacoes.Where(x => x.CardBrandName.ToLower() == bandeira.ToLower()).ToList();
 
             return Task.FromResult(result);
         }
@@ -50,7 +51,7 @@ namespace CapptaApi.Repositories
         /// <returns></returns>
         public Task<List<Transacao>> ConsultaPorCnpj(string cnpj)
         {
-            var result = _trancacoes.Where(x => x.MerchantCnpj == cnpj).ToList();
+            var result = _transacoes.Where(x => x.MerchantCnpj == cnpj).ToList();
 
             return Task.FromResult(result);
         }
@@ -58,7 +59,7 @@ namespace CapptaApi.Repositories
         public Task<List<Transacao>> ConsultaPorCnpjDataAtualMastercard(string cnpj)
         {
             var dataAtual = new DateTime();
-            var result = _trancacoes.Where(x => x.AcquirerAuthorizationDateTime == dataAtual && x.MerchantCnpj == cnpj).ToList();
+            var result = _transacoes.Where(x => x.AcquirerAuthorizationDateTime == dataAtual && x.MerchantCnpj == cnpj).ToList();
 
             return Task.FromResult(result);
 
@@ -73,8 +74,8 @@ namespace CapptaApi.Repositories
         /// <returns></returns>
         public Task<List<Transacao>> ConsultaPorData(DateTime data, string bandeira)
         {
-            var result = _trancacoes.Where(x => x.AcquirerAuthorizationDateTime == data &&
-            x.CardBrandName == bandeira).ToList();
+            var result = _transacoes.Where(x => x.AcquirerAuthorizationDateTime == data &&
+            x.CardBrandName.ToLower() == bandeira.ToLower()).ToList();
 
             return Task.FromResult(result);
         }
@@ -88,7 +89,8 @@ namespace CapptaApi.Repositories
         /// <returns></returns>
         public Task<List<Transacao>> ConsultaPorCnpjEBandeira(string cnpj, string bandeira)
         {
-            var result = _trancacoes.Where(x => x.MerchantCnpj == cnpj && x.CardBrandName == bandeira).ToList();
+            var result = _transacoes.Where(x => x.MerchantCnpj == cnpj && x.CardBrandName.ToLower()
+            == bandeira.ToLower() ).ToList();
 
             return Task.FromResult(result);
         }
@@ -100,7 +102,7 @@ namespace CapptaApi.Repositories
         /// <returns></returns>
         public Task<List<Transacao>> ConsultaPorCnpjMasterEVisa(string cnpj)
         {
-            var result = _trancacoes.Where(x => x.MerchantCnpj == cnpj &&
+            var result = _transacoes.Where(x => x.MerchantCnpj == cnpj &&
             x.CardBrandName == Constantes.Const.Mastercard || x.CardBrandName == Const.Visa).ToList();
 
             return Task.FromResult(result);
@@ -116,7 +118,7 @@ namespace CapptaApi.Repositories
             DateTime Ultimos30Dias = DateTime.Now.AddDays(-30);
             
 
-            var result = _trancacoes.Where(x => x.MerchantCnpj == cnpj &&
+            var result = _transacoes.Where(x => x.MerchantCnpj == cnpj &&
             x.AcquirerName == Const.Stone &&
             x.AcquirerAuthorizationDateTime > Ultimos30Dias).ToList();
 

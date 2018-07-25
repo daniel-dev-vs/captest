@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CapptaApi.Models;
+using CapptaApi.Repositories;
+using CapptaApi.Repository;
+using CapptaApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -20,9 +26,18 @@ namespace CapptaApi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+       
         public void ConfigureServices(IServiceCollection services)
         {
+            
+            var lista = new LeitorCsvRepository().LerCSVParaListaTransacaoModel(Constantes.Const.DadosCsv);
+                        
+            services.AddScoped<ITransacaoService, TransacaoService>();
+            services.AddScoped<ITransacaoRepository, TransacaoRepository>();
+            services.TryAddSingleton<List<Transacao>>(lista);
+
+
+
             services.AddMvc();
         }
 
@@ -35,6 +50,7 @@ namespace CapptaApi
             }
 
             app.UseMvc();
+            app.UseStatusCodePagesWithRedirects("/error/{0}");
         }
     }
 }
