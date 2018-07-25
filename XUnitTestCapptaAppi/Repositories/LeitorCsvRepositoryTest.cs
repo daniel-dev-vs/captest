@@ -1,11 +1,8 @@
 using System;
 using Xunit;
-using CapptaApi.Models;
 using CapptaApi.Repositories;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.IO;
-using System.Reflection;
+using CapptaApi.Constantes;
+
 
 namespace XUnitTestCapptaAppi
 {
@@ -17,7 +14,7 @@ namespace XUnitTestCapptaAppi
 
         public LeitorCsvRepositoryTest()
         {
-            Caminho = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"AppData\\dados.csv");
+            Caminho = Conts.DadosCsv;
             RepositorioSobreTeste = new LeitorCsvRepository();
             
         }
