@@ -55,5 +55,7 @@ namespace CapptaApi.Services
         {
             return _transacaoRepository.ConsultaPorData(data, bandeira);
         }
+
+
     }
 }

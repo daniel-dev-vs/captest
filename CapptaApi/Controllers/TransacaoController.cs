@@ -20,70 +20,145 @@ namespace CapptaApi.Controllers
             _transacaoService = transacaoService ?? throw new ArgumentNullException(nameof(transacaoService));
         }
 
-        [HttpGet("ConsultaPorAdquirente/{adquirente}/{bandeira}")]
+        [HttpGet("consultaporadquirente/{adquirente}/{bandeira}")]
         [ProducesResponseType(typeof(IEnumerable<Transacao>), 200)]
         public async Task<IActionResult> ConsultaPorAdquirente(string adquirente, string bandeira)
         {
-            var result = await _transacaoService.ConsultaPorAdquirente(adquirente, bandeira);
-            return Ok(result);
+            try
+            {
+                var result = await _transacaoService.ConsultaPorAdquirente(adquirente, bandeira);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+           
         }
 
-        [HttpGet("ConsultaPorBandeira/{bandeira}")]
+        [HttpGet("consultaporbandeira/{bandeira}")]
         [ProducesResponseType(typeof(IEnumerable<Transacao>), 200)]
         public async Task<IActionResult> ConsultaPorBandeira(string bandeira)
         {
-            var result = await _transacaoService.ConsultaPorBandeira(bandeira);
-            return Ok(result);
+            try
+            {
+                var result = await _transacaoService.ConsultaPorBandeira(bandeira);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+           
         }
 
         [HttpGet("consultaporcnpj/{cnpj}")]
         [ProducesResponseType(typeof(IEnumerable<Transacao>), 200)]
         public async Task<IActionResult> ConsultaPorCnpj(string cnpj)
         {
-            var result = await _transacaoService.ConsultaPorCnpj(cnpj);
-            return Ok(result);
+            try
+            {
+                var result = await _transacaoService.ConsultaPorCnpj(cnpj);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
         }
 
         [HttpGet("consultaporcnpjdataatualmastercard/{cnpj}")]
         [ProducesResponseType(typeof(IEnumerable<Transacao>), 200)]
         public async Task<IActionResult> ConsultaPorCnpjDataAtualMastercard(string cnpj)
         {
-            var result = await _transacaoService.ConsultaPorCnpjDataAtualMastercard(cnpj);
-            return Ok(result);
+            try
+            {
+                var result = await _transacaoService.ConsultaPorCnpjDataAtualMastercard(cnpj);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
         }
 
         [HttpGet("consultaporcnpjebandeira/{cnpj}/{bandeira}")]
         [ProducesResponseType(typeof(IEnumerable<Transacao>), 200)]
         public async Task<IActionResult> ConsultaPorCnpjEBandeira(string cnpj, string bandeira)
         {
-            var result = await _transacaoService.ConsultaPorCnpjEBandeira(cnpj, bandeira);
-            return Ok(result);
+            try
+            {
+                var result = await _transacaoService.ConsultaPorCnpjEBandeira(cnpj, bandeira);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+           
         }
 
         [HttpGet("consultaporcnpjmasterevisa/{cnpj}")]
         [ProducesResponseType(typeof(IEnumerable<Transacao>), 200)]
         public async Task<IActionResult> ConsultaPorCnpjMasterEVisa(string cnpj)
         {
-            var result = await _transacaoService.ConsultaPorCnpjMasterEVisa(cnpj);
-            return Ok(result);
+            try
+            {
+                var result = await _transacaoService.ConsultaPorCnpjMasterEVisa(cnpj);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
         }
 
-        [HttpGet("consultaporcnpjstoneultimos30dias/{cnpj}}")]
+        [HttpGet("consultaporcnpjstoneultimos30dias/{cnpj}")]
         [ProducesResponseType(typeof(IEnumerable<Transacao>), 200)]
         public async Task<IActionResult> ConsultaPorCnpjStoneUltimos30Dias(string cnpj)
         {
-            var result = await _transacaoService.ConsultaPorCnpjStoneUltimos30Dias(cnpj);
-            return Ok(result);
+            try
+            {
+                var result = await _transacaoService.ConsultaPorCnpjStoneUltimos30Dias(cnpj);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         [HttpGet("consultapordata/{data}/{bandeira}")]
         [ProducesResponseType(typeof(IEnumerable<Transacao>), 200)]
         public async Task<IActionResult> ConsultaPorData(string data,string bandeira)
         {
-            DateTime dataConvertida = DateTime.Now;
-            DateTime.TryParse(data,out dataConvertida);
-            var result = await _transacaoService.ConsultaPorData(dataConvertida, bandeira);
-            return Ok(result);
+            try
+            {
+                var dia = int.Parse(data.Substring(0,2));
+                var mes = int.Parse(data.Substring(2, 2));
+                var ano = int.Parse(data.Substring(4, 4));
+
+                var dataConvertida = new DateTime(ano,mes,dia);
+                var result = await _transacaoService.ConsultaPorData(dataConvertida, bandeira);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+          
         }
     }
 }

@@ -58,8 +58,9 @@ namespace CapptaApi.Repositories
 
         public Task<List<Transacao>> ConsultaPorCnpjDataAtualMastercard(string cnpj)
         {
-            var dataAtual = new DateTime();
-            var result = _transacoes.Where(x => x.AcquirerAuthorizationDateTime == dataAtual && x.MerchantCnpj == cnpj).ToList();
+            var dataAtual = DateTime.Now;
+            var result = _transacoes.Where(x => x.AcquirerAuthorizationDateTime > dataAtual && x.AcquirerAuthorizationDateTime < dataAtual.AddHours(23) &&
+            x.MerchantCnpj == cnpj && x.CardBrandName == Const.Mastercard).ToList();
 
             return Task.FromResult(result);
 
@@ -74,7 +75,7 @@ namespace CapptaApi.Repositories
         /// <returns></returns>
         public Task<List<Transacao>> ConsultaPorData(DateTime data, string bandeira)
         {
-            var result = _transacoes.Where(x => x.AcquirerAuthorizationDateTime == data &&
+            var result = _transacoes.Where(x => x.AcquirerAuthorizationDateTime > data &&  x.AcquirerAuthorizationDateTime < data.AddHours(23) &&
             x.CardBrandName.ToLower() == bandeira.ToLower()).ToList();
 
             return Task.FromResult(result);

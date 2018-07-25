@@ -69,12 +69,24 @@ namespace XUnitTestCapptaAppi.Repositories
             }
 
             [Fact]
+            public async Task Deve_Consultar_Por_Cnpj_DataAtual_e_Mastercard()
+            {
+                //Act.
+                var cnpj = "07638113000166";
+                var bandeira = Const.Mastercard;                               
+                var result = await RepositorioSobreTeste.ConsultaPorCnpjDataAtualMastercard(cnpj);
+
+                //Assert
+                Assert.Equal(cnpj, result.FirstOrDefault().MerchantCnpj);
+                Assert.Equal(bandeira, result.FirstOrDefault().CardBrandName);
+            }
+
+            [Fact]
             public async Task Deve_Consultar_Por_Cnpj_e_Mastercard()
             {
                 //Act.
                 var cnpj = "07638113000166";
                 var bandeira = Const.Mastercard;
-                //var bandeira = null;               
                 var result = await RepositorioSobreTeste.ConsultaPorCnpjEBandeira(cnpj, bandeira);
 
                 //Assert
@@ -128,25 +140,23 @@ namespace XUnitTestCapptaAppi.Repositories
                 //Assert
                 Assert.True( result.FirstOrDefault().AcquirerAuthorizationDateTime > dataUltimos30Dias);
                 
-            }
+            }          
+          
+        }
 
+        public class ConsultaPorData: TransacaoRepositoryTest
+        {
             [Fact]
-            public async Task Deve_Consultar_Por_Cnpj_e_Data_Atual_Mastercard()
+            public async Task Deve_Consultar_Por_Data_e_Bandeira()
             {
                 //Act.
-                var cnpj = "17872744000107";
+                var bandeira = Const.Mastercard;
+                var data = DateTime.Now;
+                var result = await RepositorioSobreTeste.ConsultaPorData(data, bandeira);
 
-
-                //var bandeira = null;               
-                var result = await RepositorioSobreTeste.ConsultaPorCnpjStoneUltimos30Dias(cnpj);
-                DateTime dataAtual = DateTime.Now;
-
-                var primeiraTransacao = result.FirstOrDefault();
                 //Assert
-                Assert.True(primeiraTransacao.AcquirerAuthorizationDateTime == dataAtual);
-                Assert.True(primeiraTransacao.MerchantCnpj == cnpj);
-                Assert.True(primeiraTransacao.CardBrandName == Const.Mastercard);
-
+                Assert.Equal(bandeira, result.FirstOrDefault().CardBrandName);
+                Assert.Equal(data, result.FirstOrDefault().AcquirerAuthorizationDateTime);
             }
         }
     }
