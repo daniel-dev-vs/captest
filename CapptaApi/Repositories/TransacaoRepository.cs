@@ -12,7 +12,7 @@ namespace CapptaApi.Repositories
         private readonly IEnumerable<Transacao> _trancacoes;
         public TransacaoRepository(IEnumerable<Transacao> transacoes)
         {
-            if (transacoes == null) { throw new ArgumentNullException(nameof(_trancacoes)); }            
+            if (transacoes == null) { throw new ArgumentNullException(nameof(_trancacoes)); }
             _trancacoes = transacoes;
         }
 
@@ -46,7 +46,7 @@ namespace CapptaApi.Repositories
             throw new NotImplementedException();
         }
 
-       
-        }
+
     }
 }
+

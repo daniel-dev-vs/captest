@@ -9,38 +9,45 @@ namespace CapptaApi.Repositories
 {
     public class LeitorCsvRepository : ILeitorCsvRepository
     {
-        public IEnumerable<Transacao> LerCSVParaTransacaoModel(string caminho)
+        public List<Transacao> LerCSVParaListaTransacaoModel(string caminho)
         {
-            using (var reader = new StreamReader(caminho))
+            try
             {
-                List<Transacao> listaTransacao = new List<Transacao>();
-                List<string> listB = new List<string>();
-
-                while (!reader.EndOfStream)
+                using (var reader = new StreamReader(caminho))
                 {
-                    var linha = reader.ReadLine();
-                    var valores = linha.Split(';');
+                    List<Transacao> listaTransacao = new List<Transacao>();                    
 
-                    var transacao = new Transacao();
+                    while (!reader.EndOfStream)
+                    {
+                        var linha = reader.ReadLine();
+                        var valores = linha.Split(';');
 
-                    transacao.MerchantCnpj = valores[1];
-                    transacao.CheckoutCode = Int32.Parse(valores[2]);
-                    transacao.CipheredCardNumber = valores[3];
-                    transacao.AmountInCents = Int32.Parse(valores[4]);
-                    transacao.Installments = Int32.Parse(valores[5]);
-                    transacao.AcquirerName = valores[6];
-                    transacao.PaymentMethod = valores[7];
-                    transacao.CardBrandName = valores[8];
-                    transacao.Status = valores[9];
-                    transacao.StatusInfo = valores[10];
-                    transacao.CreatedAt = DateTime.Parse(valores[11]);
-                    transacao.AcquirerAuthorizationDateTime = DateTime.Parse(valores[12]);
+                        var transacao = new Transacao();
 
-                    listaTransacao.Add(transacao);
+                        transacao.MerchantCnpj = valores[1];
+                        transacao.CheckoutCode = Int32.Parse(valores[2]);
+                        transacao.CipheredCardNumber = valores[3];
+                        transacao.AmountInCents = Int32.Parse(valores[4]);
+                        transacao.Installments = Int32.Parse(valores[5]);
+                        transacao.AcquirerName = valores[6];
+                        transacao.PaymentMethod = valores[7];
+                        transacao.CardBrandName = valores[8];
+                        transacao.Status = valores[9];
+                        transacao.StatusInfo = valores[10];
+                        transacao.CreatedAt = DateTime.Parse(valores[11]);
+                        transacao.AcquirerAuthorizationDateTime = DateTime.Parse(valores[12]);
+
+                        listaTransacao.Add(transacao);
+                    }
+
+                    return listaTransacao;
                 }
-
-                return listaTransacao;
             }
+            catch (Exception e)
+            {
+                throw e;
+            }
+           
         }
     }
 }

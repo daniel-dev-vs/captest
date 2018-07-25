@@ -8,6 +8,6 @@ namespace CapptaApi.Repositories
 {
     public interface ILeitorCsvRepository
     {
-        IEnumerable<Transacao>LerCSVParaTransacaoModel(string caminho);
+        List<Transacao>LerCSVParaListaTransacaoModel(string caminho);
     }
 }
