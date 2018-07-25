@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CapptaApi.Constantes;
 
 
 namespace CapptaApi.Repositories
@@ -17,39 +18,110 @@ namespace CapptaApi.Repositories
             _trancacoes = transacoes;
         }
 
-        public Task<List<Transacao>> ConsultaPorAdquirente(string adquirente)
+        /// <summary>
+        /// Método asíncrono responsável por consultar por adquirente e bandeira.
+        /// </summary>
+        /// <param name="adquirente">deve ser preenchido</param>
+        /// <param name="bandeira"></param>
+        /// <returns></returns>
+        public Task<List<Transacao>> ConsultaPorAdquirente(string adquirente, string bandeira)
         {
-            var result =  _trancacoes.Where(x => x.AcquirerName == adquirente).ToList();
+            var result =  _trancacoes.Where(x => x.AcquirerName == adquirente && x.CardBrandName == bandeira).ToList();
 
             return Task.FromResult(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bandeira"></param>
+        /// <returns></returns>
         public Task<List<Transacao>> ConsultaPorBandeira(string bandeira)
         {
-            throw new NotImplementedException();
+            var result = _trancacoes.Where(x => x.CardBrandName == bandeira).ToList();
+
+            return Task.FromResult(result);
         }
 
-        public Task<List<Transacao>> ConsultaPorCnpj(string cnpj, int bandeira)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cnpj"></param>
+        /// <returns></returns>
+        public Task<List<Transacao>> ConsultaPorCnpj(string cnpj)
         {
-            throw new NotImplementedException();
+            var result = _trancacoes.Where(x => x.MerchantCnpj == cnpj).ToList();
+
+            return Task.FromResult(result);
         }
 
-        public Task<List<Transacao>> ConsultaPorCnpjDataAtualMastercard(string bandeira)
+        public Task<List<Transacao>> ConsultaPorCnpjDataAtualMastercard(string cnpj)
         {
-            throw new NotImplementedException();
+            var dataAtual = new DateTime();
+            var result = _trancacoes.Where(x => x.AcquirerAuthorizationDateTime == dataAtual && x.MerchantCnpj == cnpj).ToList();
+
+            return Task.FromResult(result);
+
+           
         }
 
-        public Task<List<Transacao>> ConsultaPorData(DateTime data, int bandeira)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="bandeira"></param>
+        /// <returns></returns>
+        public Task<List<Transacao>> ConsultaPorData(DateTime data, string bandeira)
         {
-            throw new NotImplementedException();
+            var result = _trancacoes.Where(x => x.AcquirerAuthorizationDateTime == data &&
+            x.CardBrandName == bandeira).ToList();
+
+            return Task.FromResult(result);
         }
 
-        public Task<List<Transacao>> ConsultaPorStoneÙltimos30Dias(string bandeira)
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cnpj"></param>
+        /// <param name="bandeira"></param>
+        /// <returns></returns>
+        public Task<List<Transacao>> ConsultaPorCnpjEBandeira(string cnpj, string bandeira)
         {
-            throw new NotImplementedException();
+            var result = _trancacoes.Where(x => x.MerchantCnpj == cnpj && x.CardBrandName == bandeira).ToList();
+
+            return Task.FromResult(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cnpj"></param>
+        /// <returns></returns>
+        public Task<List<Transacao>> ConsultaPorCnpjMasterEVisa(string cnpj)
+        {
+            var result = _trancacoes.Where(x => x.MerchantCnpj == cnpj &&
+            x.CardBrandName == Constantes.Const.Mastercard || x.CardBrandName == Const.Visa).ToList();
 
+            return Task.FromResult(result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cnpj"></param>
+        /// <returns></returns>
+        public Task<List<Transacao>> ConsultaPorCnpjStoneUltimos30Dias(string cnpj)
+        {
+            DateTime Ultimos30Dias = DateTime.Now.AddDays(-30);
+            
+
+            var result = _trancacoes.Where(x => x.MerchantCnpj == cnpj &&
+            x.AcquirerName == Const.Stone &&
+            x.AcquirerAuthorizationDateTime > Ultimos30Dias).ToList();
+
+            return Task.FromResult(result);
+        }
     }
 }
 

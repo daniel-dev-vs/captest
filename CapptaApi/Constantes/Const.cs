@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace CapptaApi.Constantes
 {
-    public static class Conts
+    public static class Const
     {
         
         public static string DadosCsv = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"AppData\dados.csv");
-        
+        public static string Mastercard = "Mastercard";
+        public static string Visa = "Visa";
+        public static string Stone = "Stone";
+
     }
 }

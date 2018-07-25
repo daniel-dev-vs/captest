@@ -14,7 +14,7 @@ namespace XUnitTestCapptaAppi
 
         public LeitorCsvRepositoryTest()
         {
-            Caminho = Conts.DadosCsv;
+            Caminho = Const.DadosCsv;
             RepositorioSobreTeste = new LeitorCsvRepository();
             
         }
